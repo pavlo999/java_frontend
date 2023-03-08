@@ -1,14 +1,15 @@
+import { Outlet } from "react-router-dom";
 import DefaultHeader from "./DefaultHeader";
-import {Outlet} from "react-router-dom";
 
-const DefaultLayout = () => {
+const DefaultLayout = () =>{
+
     return (
-        <>
-            <DefaultHeader />
-            <div>
-                <Outlet />
-            </div>
-        </>
+      <>
+        <DefaultHeader />
+        <div className="container mx-auto">
+          <Outlet />
+        </div>
+      </>
     );
 }
 
