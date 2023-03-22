@@ -1,0 +1,43 @@
+.mySlider {
+  text-align: center;
+}
+
+.slideVisible {
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.slideContainer {
+  transition: ease 1000ms;
+  white-space: nowrap;
+}
+
+.slide {
+  border-radius: 16px;
+  display: inline-block;
+
+  height: 400px;
+  width: 100%;
+}
+
+.slideDotsContainer {
+  text-align: center;
+}
+.slideDots {
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 16px 8px 0;
+  height: 50px;
+  width: 80px;
+}
+.active {
+  border: solid blue;
+}
+.image-slide-container{
+    position: absolute;
+    width: 100%;  
+    height: 100%;
+    display: flex;
+}
