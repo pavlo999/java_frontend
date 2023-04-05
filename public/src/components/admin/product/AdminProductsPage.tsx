@@ -1,11 +1,14 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { APP_ENV } from "../../env";
-import Loader from "../common/loader";
-import { IProductItem } from "../admin/product/store/type";
-import http from "../../http_common";
+import { IProductItem } from "./store/type";
+import { APP_ENV } from "../../../env";
+import http from "../../../http_common";
+import ModalDelete from "../../common/modal/ModalDelete";
+import Loader from "../../common/loader";
 
-const Product = () => {
+
+const AdminProductsPage = () => {
   const [list, setlist] = useState<IProductItem[]>([]);
   const [isLoaded , setLoaded] = useState<boolean>(false);
 
@@ -13,10 +16,18 @@ const Product = () => {
     getAllDataFromServer();
   }, []);
 
+  const deleteProductHandler  = async (id:number) => {
+    try{
+      await http.delete(`${APP_ENV.REMOTE_HOST_NAME}api/products?id=`+id).then(result=>{
+        setlist(list.filter(e=>{return e.id!==id}));       
+      });
+    }catch(e:any){
+    }   
+  };
 
   const getAllDataFromServer = async () => {
     try {
-      await http
+      await axios
         .get<IProductItem[]>(`${APP_ENV.REMOTE_HOST_NAME}api/products`)
         .then((result) => {
           const { data } = result;
@@ -56,6 +67,22 @@ const Product = () => {
           {" грн."}
         </p>
       </div>
+
+      <div className="mb-3 flex flex-row-reverse justify-between">
+        <Link
+          to={`/admin/product/edit/${product.id}`}
+          className=" cursor-pointer text-sm bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded-md"
+        >
+          {"Редагувати"}
+        </Link>
+
+        <ModalDelete
+          id={product.id}
+          title="Видалення"
+          text={`Ви дійсно бажаєте видалить '${product.name}'?`}
+          onDelete={deleteProductHandler}
+        />
+      </div>
     </div>
   ));
 
@@ -63,6 +90,14 @@ const Product = () => {
     <>
      {!isLoaded &&
       <Loader/>}
+      <div className=" text-center pt-5">
+        <Link
+          to="/admin/product/create"
+          className=" bg-green-600 px-4 py-2 rounded-md border border-transparent hover:bg-green-500 text-white text-lg font-bold "
+        >
+          {"Додати продукт"}
+        </Link>
+      </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl py-4 sm:py-24 lg:max-w-none lg:py-8">
           <h2 className="text-2xl font-bold text-gray-900">
@@ -77,4 +112,4 @@ const Product = () => {
     </>
   );
 };
-export default Product;
+export default AdminProductsPage;

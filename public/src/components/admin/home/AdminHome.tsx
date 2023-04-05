@@ -1,15 +1,13 @@
-import Categories from "../category";
+import AdminCategories from "../category";
 
-
-
-const Home = () =>{
+const AdminHome = () =>{
     return(
         <>
         {/* <h1 className="text-3xl font-bold underline">HOME PAGE!</h1> */}
-        <Categories/>
+        <AdminCategories/>
         
         </>
     );
 }
 
-export default Home;
+export default AdminHome;

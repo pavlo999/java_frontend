@@ -19,18 +19,20 @@ const resetTimeOut = () => {
 };
 
 useEffect(() => {
-  resetTimeOut();
-  timeOutRef.current =Number( setTimeout(
-    () =>
-      setActiveIndex((prevIndex: number) =>
-        prevIndex === imagesList.length - 1 ? 0 : prevIndex + 1
-      ),
-    delay
-  ));
+  
+    resetTimeOut();
+    timeOutRef.current =Number( setTimeout(
+      () =>{
+        setActiveIndex((prevIndex: number) =>
+          prevIndex === imagesList.length - 1 ? 0 : prevIndex + 1
+        )},
+      delay
+    ));
+
   return () => {
     resetTimeOut();
   };
-}, [activeIndex])
+}, [activeIndex , imagesList])
 
 
 const handleArrowRight = () => {

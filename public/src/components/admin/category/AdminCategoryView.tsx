@@ -1,12 +1,14 @@
+import axios from "axios";
 import {  useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ICategoryItem } from "../admin/category/store/type";
-import { APP_ENV } from "../../env";
-import http from "../../http_common";
-import Loader from "../common/loader";
 
 
-const Categories:React.FC=()=>{
+import { ICategoryItem } from "./store/type";
+import http from "../../../http_common";
+import { APP_ENV } from "../../../env";
+import Loader from "../../common/loader";
+
+const AdminCategories:React.FC=()=>{
 
     const [list , setList] = useState<ICategoryItem[]>([]);
     const [isLoaded , setLoaded] = useState<boolean>(false);
@@ -57,7 +59,15 @@ const Categories:React.FC=()=>{
       {!isLoaded &&
       <Loader/>}
         <div className="bg-gray-100">
-         
+          <div className=" text-center pt-5">
+            <Link
+              to="categories/create"
+              className=" bg-green-600 px-4 py-2 rounded-md border border-transparent hover:bg-green-500 text-white text-lg font-bold "
+            >
+              Create category
+            </Link>
+          
+          </div>
           <div className=" relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl py-4 sm:py-24 lg:max-w-none lg:py-8">
               <h2 className="text-2xl font-bold text-gray-900">Collections</h2>
@@ -72,4 +82,4 @@ const Categories:React.FC=()=>{
       </>
     );
 }
-export default Categories;
+export default AdminCategories;

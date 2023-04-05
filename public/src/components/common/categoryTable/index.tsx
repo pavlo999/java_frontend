@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ICategoryItem } from "../../category/store/type";
+import { ICategoryItem } from "../../admin/category/store/type";
 
 interface ICategoryTableProps{
 list:ICategoryItem[]

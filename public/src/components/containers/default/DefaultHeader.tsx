@@ -16,6 +16,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { AuthUserActionType, IAuthUser } from '../../auth/login/store/types'
 
 const solutions = [
   {
@@ -80,6 +82,25 @@ function classNames(...classes : any) {
 }
 
 const DefaultHeader = () => {
+
+  const {isAuth, user} = useSelector((store:any) =>store.auth as IAuthUser);
+  const dispatch = useDispatch();
+
+  let isAdmin = false;
+
+  if(isAuth && user)
+  {
+      isAdmin = user.roles.includes("admin");
+  }
+
+  const LogoutUser= (e: any) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    dispatch({
+      type: AuthUserActionType.LOGOUT_USER
+    });
+  }
+
   return (
     <Popover className="relative bg-white">
       <div className="mx-auto max-w-7xl px-6">
@@ -172,6 +193,14 @@ const DefaultHeader = () => {
             <Link to="/products" className="text-base font-medium text-gray-500 hover:text-gray-900">
               Products
             </Link>
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className="text-base font-medium text-gray-500 hover:text-gray-900"
+              >
+                Admin panel
+              </Link>
+            )}
 
             <Popover className="relative">
               {({ open }) => (
@@ -246,15 +275,37 @@ const DefaultHeader = () => {
             </Popover>
           </Popover.Group>
           <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-            <Link to="login" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
-              Sign in
-            </Link>
-            <Link
+          {isAuth ? (
+                <>
+                  <Link
+                    to="/profile"
+                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    {user?.email}
+                  </Link>
+                  <Link to="#"
+                    onClick={LogoutUser}
+                    className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                  >
+                    Вихід
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="login"
+                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    Вхід
+                  </Link>
+                  <Link
               to="#"
               className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
             >
               Sign up
             </Link>
+                </>
+              )}
           </div>
         </div>
       </div>

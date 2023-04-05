@@ -1,13 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { start } from "repl";
 import { APP_ENV } from "../../../env";
-import { ICategoryItem } from "../../category/store/type";
 import Loader from "../../common/loader";
-import TestSlider from "../../common/slider/testSlider";
 import TestSlider2 from "../../common/slider/testSlider2";
-import { IProductItem } from "../store/type";
+import { IProductItem } from "../../admin/product/store/type";
+import { ICategoryItem } from "../../admin/category/store/type";
+import http from "../../../http_common";
 
 const InfoProductPage: React.FC = () => {
   const [listCategories, setListCategories] = useState<ICategoryItem[]>([]);
@@ -37,7 +35,7 @@ const InfoProductPage: React.FC = () => {
       //     setListCategories(data);
       //   });
 
-      await axios
+      await http
         .get<IProductItem>(
           `${APP_ENV.REMOTE_HOST_NAME}api/products/${params.id}`
         )
